@@ -1,8 +1,9 @@
 const http = require("http");
+
 const process = require('process');
 const args = process.argv.slice(2);
 const portIndex = args.findIndex(arg => arg === '--port');
-const port = portIndex !== -1 ? parseInt(args[portIndex + 1]) : 1229;
+const port = portIndex !== -1 ? parseInt(args[portIndex + 1]) :3000;
 
 const fs = require("fs");
 let homeContent = "";
