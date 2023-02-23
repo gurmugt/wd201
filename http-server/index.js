@@ -1,14 +1,15 @@
 const http = require("http");
-
-const process = require('process');
-const args = process.argv.slice(2);
-const portIndex = args.findIndex(arg => arg === '--port');
-const port = portIndex !== -1 ? parseInt(args[portIndex + 1]) :3000;
-
+const minimistargs = require("minimist")
 const fs = require("fs");
 let homeContent = "";
 let projectContent = "";
 let registrationContent="";
+
+const arguments = minimistargs(process.argv.slice(1), {
+  default: {
+    port: 5000
+  }
+})
 
 fs.readFile("home.html", (err, home) => {
   if (err) {
@@ -50,6 +51,4 @@ http.createServer((request, response) => {
       response.end();
       break;
   }
-}).listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
+}).listen(arguments.port);
