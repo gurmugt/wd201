@@ -8,48 +8,40 @@ const todoList = () => {
   }
 
   const overdue = () => {
-    // Write the date check condition here and return the array
-    // of overdue items accordingly.
-    const overdueItems = all.filter((item) => {
-      return item.dueDate < new Date().toISOString().split("T")[0] && !item.completed
-    })
-    return overdueItems
-  }
+    const OverDue = all.filter((items) =>
+        items.dueDate.split("-")[2] <
+        new Date().toISOString().split("T")[0].split("-")[2]
+    );
+    return OverDue;
+  };
 
   const dueToday = () => {
-    // Write the date check condition here and return the array
-    // of todo items that are due today accordingly.
-    const DueTodayItems = all.filter((item) => {
-      return item.dueDate === new Date().toISOString().split("T")[0] || item.completed  
-    })
-    return DueTodayItems
-  }
+    const DueToday = all.filter((items) =>
+        items.dueDate.split("-")[2] ===
+        String(new Date().toISOString().split("T")[0].split("-")[2])
+    );
+    return DueToday;
+  };
 
   const dueLater = () => {
-    // Write the date check condition here and return the array
-    // of todo items that are due later accordingly.
-    const DueLaterItems = all.filter((item) => {
-      return item.dueDate > new Date().toISOString().split("T")[0] && !item.completed
-    })
-    return DueLaterItems
-  }
+    const DueLater = all.filter((items) =>
+        items.dueDate.split("-")[2] >
+        new Date().toISOString().split("T")[0].split("-")[2]
+    );
+    return DueLater;
+  };
 
   const toDisplayableList = (list) => {
-    // Format the To-Do list here, and return the output string
-    // as per the format given above.
-    let Output = ""
-    list.forEach((item, index) => {
-      Output += `[${item.completed ? "x" : " "}] ${item.title}`
-      if (item.dueDate) {
-        const DueDateFormatted = formattedDate(new Date(item.dueDate))
-        if (DueDateFormatted  !== today) {
-          Output += ` ${DueDateFormatted }`
-        }
-      }
-      Output += "\n"
-    })
-    return Output
-  }
+    const final = list.map((items) => {
+      const checkIfCompleted = items.completed === true ? "[x]" : "[ ]";
+      const display =
+        items.dueDate.split("-")[2] === String(new Date().getDate())
+          ? ""
+          : items.dueDate;
+      return `${checkIfCompleted} ${items.title} ${display}`;
+    });
+    return final.join("\n");
+  };
 
   return {
     all,
@@ -93,13 +85,13 @@ console.log("Overdue")
 var overdues = todos.overdue()
 var formattedOverdues = todos.toDisplayableList(overdues)
 console.log(formattedOverdues)
-//console.log("\n")
+console.log("\n")
 
 console.log("Due Today")
 let itemsDueToday = todos.dueToday()
 let formattedItemsDueToday = todos.toDisplayableList(itemsDueToday)
 console.log(formattedItemsDueToday)
-//console.log("\n")
+console.log("\n")
 
 console.log("Due Later")
 let itemsDueLater = todos.dueLater()
