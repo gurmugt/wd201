@@ -19,19 +19,19 @@ const todoList = () => {
     const dueToday = () => {
       // Write the date check condition here and return the array
       // of todo items that are due today accordingly.
-      const itemsDueToday = all.filter((item) => {
+      const DueTodayItems = all.filter((item) => {
         return item.dueDate === new Date().toISOString().split("T")[0] || item.completed  
       })
-      return itemsDueToday
+      return DueTodayItems
     }
   
     const dueLater = () => {
       // Write the date check condition here and return the array
       // of todo items that are due later accordingly.
-      const itemsDueLater = all.filter((item) => {
+      const DueLaterItems = all.filter((item) => {
         return item.dueDate > new Date().toISOString().split("T")[0] && !item.completed
       })
-      return itemsDueLater
+      return DueLaterItems
     }
   
     const toDisplayableList = (list) => {
