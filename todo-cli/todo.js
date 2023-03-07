@@ -34,15 +34,16 @@ const todoList = () => {
   const toDisplayableList = (list) => {
     const final = list.map((items) => {
       const checkIfCompleted = items.completed === true ? "[x]" : "[ ]";
-      const display =
-        items.dueDate.split("-")[2] === String(new Date().getDate())
+      const displayDueDate =
+        items.dueDate === new Date().toISOString().split("T")[0]
           ? ""
-          : items.dueDate;
-      return `${checkIfCompleted} ${items.title} ${display}`;
+          : ` ${items.dueDate}`;
+      return `${checkIfCompleted} ${items.title}${displayDueDate}`;
     });
     return final.join("\n");
   };
-
+  
+  
   return {
     all,
     add,
