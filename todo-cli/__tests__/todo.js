@@ -3,7 +3,7 @@ const todoList = require("../todo");
 
 const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
 
-describe("TodoList Test Suite", () => {
+describe("TodoList Test Suites", () => {
   const formattedDate = (d) => {
     return d.toISOString().split("T")[0];
   };
