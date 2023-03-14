@@ -37,17 +37,20 @@ describe("TodoList Test Suites", () => {
   });
 
   test("A test that checks retrieval of overdue items.", () => {
+    add({ title: "Pay water bill", dueDate: yesterday, completed: false });
     const overDue = overdue();
-    expect(overDue.length).toBe(1);
+    expect(overDue.length).toBe(2);
   });
 
   test("A test that checks retrieval of due today items.", () => {
+    add({ title: "Service automobiles", dueDate: today, completed: false });
     const dueT = dueToday();
-    expect(dueT.length).toBe(2);
+    expect(dueT.length).toBe(3);
   });
 
   test("A test that checks retrieval of due later items.", () => {
+    add({ title: "Pay electric bill", dueDate: tomorrow, completed: false });
     const dueL = dueLater();
-    expect(dueL.length).toBe(3);
+    expect(dueL.length).toBe(4);
   });
 });
