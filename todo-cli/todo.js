@@ -28,8 +28,9 @@ const todoList = () => {
       const checkIfCompleted = items.completed === true ? "[x]" : "[ ]";
       const displayDueDate =
         items.dueDate === new Date().toISOString().split("T")[0]
-          ? "" :  `${items.dueDate}` 
-        return `${checkIfCompleted} ${items.title}${displayDueDate}`;
+          ? ""
+          : `${items.dueDate}`;
+      return `${checkIfCompleted} ${items.title}${displayDueDate}`;
     });
     return final.join("\n").trim();
   };
@@ -44,7 +45,6 @@ const todoList = () => {
     toDisplayableList,
   };
 };
-
 
 const formattedDate = (d) => {
   return d.toISOString().split("T")[0];
