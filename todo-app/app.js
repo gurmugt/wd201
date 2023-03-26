@@ -5,6 +5,22 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
 const { Todo } = require("./models");
+const path = require("path");
+
+//This line code is to style our web app using css
+// eslint-disable-next-line no-undef
+app.use(express.static(path.join(__dirname, "public")));
+
+//Rendering our todos using ejs template
+app.set("view engine", "ejs");
+app.get("/", async (request, response) => {
+  const allTodos = await Todo.getTodos();
+  if (request.accepts("html")) {
+    response.render("index", { allTodos });
+  } else {
+    response.json({ allTodos });
+  }
+});
 
 // eslint-disable-next-line no-unused-vars
 app.get("/todos", async (request, response) => {
