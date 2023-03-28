@@ -7,20 +7,39 @@ app.use(bodyParser.json());
 const { Todo } = require("./models");
 const path = require("path");
 
+const { Op } = require("sequelize");
+
 //This line code is to style our web app using css
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public")));
-
-//Rendering our todos using ejs template
 app.set("view engine", "ejs");
+
 app.get("/", async (request, response) => {
+  const overdueTodos = await Todo.findAll({
+    where: { dueDate: { [Op.lt]: new Date() } },
+  });
+  const dueTodayTodos = await Todo.findAll({
+    where: {
+      dueDate: {
+        [Op.gte]: new Date().setHours(0, 0, 0, 0),
+        [Op.lte]: new Date().setHours(23, 59, 59, 999),
+      },
+    },
+  });
+  const dueLaterTodos = await Todo.findAll({
+    where: { dueDate: { [Op.gt]: new Date().setHours(23, 59, 59, 999) } },
+  });
+  response.render("index", { overdueTodos, dueTodayTodos, dueLaterTodos });
+});
+
+/*app.get("/", async (request, response) => {
   const allTodos = await Todo.getTodos();
   if (request.accepts("html")) {
-    response.render("index", { allTodos });
+    response.render("index", { allTodos,});
   } else {
-    response.json({ allTodos });
+    response.json({ allTodos});
   }
-});
+});*/
 
 // eslint-disable-next-line no-unused-vars
 app.get("/todos", async (request, response) => {

@@ -1,4 +1,26 @@
 body {
-    background-color: aqua;
+    background-color:white;
     font-family: "Times New Roman", Times, serif;
+  }
+
+  .Todo-item:hover .trash-icon{
+    display:block;
+  }
+
+
+  #count-overdue{
+  background-color:lightgray;
+  margin-left: 10px;
+}
+
+
+  #count-due-today{
+    background-color:lightgray;
+    margin-left: 10px;
+  }
+
+
+  #count-due-later{
+    background-color:lightgray;
+    margin-left: 10px;
   }

@@ -25,10 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     static todoList() {
       return this.findAll();
     }
-
-    static getTodos() {
-      return this.findAll();
-    }
   }
 
   Todo.init(
