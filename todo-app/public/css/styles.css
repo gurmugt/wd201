@@ -1,26 +1,23 @@
 body {
-    background-color:white;
-    font-family: "Times New Roman", Times, serif;
-  }
+  background-color: white;
+  font-family: "Times New Roman", Times, serif;
+}
 
-  .Todo-item:hover .trash-icon{
-    display:block;
-  }
+.Todo-item:hover .trash-icon {
+  display: block;
+}
 
-
-  #count-overdue{
-  background-color:lightgray;
+#count-overdue {
+  background-color: lightgray;
   margin-left: 10px;
 }
 
+#count-due-today {
+  background-color: lightgray;
+  margin-left: 10px;
+}
 
-  #count-due-today{
-    background-color:lightgray;
-    margin-left: 10px;
-  }
-
-
-  #count-due-later{
-    background-color:lightgray;
-    margin-left: 10px;
-  }
+#count-due-later {
+  background-color: lightgray;
+  margin-left: 10px;
+}
