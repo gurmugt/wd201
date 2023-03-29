@@ -15,10 +15,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
 app.get("/", async (request, response) => {
-  const overdueTodos = await Todo.findAll({
+  const overdue = await Todo.findAll({
     where: { dueDate: { [Op.lt]: new Date() } },
   });
-  const dueTodayTodos = await Todo.findAll({
+  const dueToday = await Todo.findAll({
     where: {
       dueDate: {
         [Op.gte]: new Date().setHours(0, 0, 0, 0),
@@ -26,10 +26,10 @@ app.get("/", async (request, response) => {
       },
     },
   });
-  const dueLaterTodos = await Todo.findAll({
+  const dueLater = await Todo.findAll({
     where: { dueDate: { [Op.gt]: new Date().setHours(23, 59, 59, 999) } },
   });
-  response.render("index", { overdueTodos, dueTodayTodos, dueLaterTodos });
+  response.render("index", { overdue, dueToday, dueLater });
 });
 
 /*app.get("/", async (request, response) => {

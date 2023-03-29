@@ -32,7 +32,10 @@
     </form>
 
     <div>
-        <%- include('todos.ejs')%> 
+<%- include('todos.ejs', {"todosSection":"Overdue", "id":"count-overdue", "myTodos": overdue} )%> 
+<%- include('todos.ejs', {"todosSection":"Due Today", "id":"count-due-today", "myTodos": dueToday} )%> 
+<%- include('todos.ejs', {"todosSection":"Due Later", "id":"count-due-later", "myTodos": dueLater} )%> 
+
     </div>
 
     </div>
