@@ -18,12 +18,20 @@ module.exports = (sequelize, DataTypes) => {
       return this.create({ title: title, dueDate: dueDate, completed: false });
     }
 
-    markAsCompleted() {
-      return this.update({ completed: true });
+    setCompletionStatus(status) {
+      return this.update({ completed: status });
     }
 
     static todoList() {
       return this.findAll();
+    }
+
+    static async remove(id) {
+      return this.destroy({
+        where: {
+          id,
+        },
+      });
     }
   }
 

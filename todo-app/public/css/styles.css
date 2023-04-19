@@ -18,26 +18,3 @@ body {
   padding: 1px 10px;
   border-radius: 5px;
 }
-
-/*
-#count-overdue {
-  background-color: lightgray;
-  margin-left: 10px;
-  padding: 5px 10px;
-  display: inline-block;
-}
-
-#count-due-today {
-  background-color: lightgray;
-  margin-left: 10px;
-  padding: 5px 10px;
-  display: inline-block;
-}
-
-#count-due-later {
-  background-color: lightgray;
-  margin-left: 10px;
-  padding: 5px 10px;
-  display: inline-block;
-}*/
-
