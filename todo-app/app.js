@@ -36,15 +36,6 @@ app.get("/", async (request, response) => {
   }
 });
 
-/*app.get("/", async (request, response) => {
-  const allTodos = await Todo.getTodos();
-  if (request.accepts("html")) {
-    response.render("index", { allTodos,});
-  } else {
-    response.json({ allTodos});
-  }
-});*/
-
 // eslint-disable-next-line no-unused-vars
 app.get("/todos", async (request, response) => {
   console.log("Todo List");
@@ -82,17 +73,6 @@ app.put("/todos/:id", async (request, response) => {
     return response.status(422).json(error);
   }
 });
-
-/* app.put("/todos/:id/markAsIncomplete", async (request, response) => {
-  const todo = await Todo.findByPk(request.params.id);
-  try {
-    const updatedTodoIncomplete= await todo. setCompletionStatus(!todo.completed);
-    return response.json(updatedTodoIncomplete);
-  } catch (error) {
-    console.log(error);
-    return response.status(422).json(error);
-  }
-}); */
 
 app.delete("/todos/:id", async (request, response) => {
   console.log("Delete a todo by an ID:", request.params.id);
