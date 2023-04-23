@@ -59,6 +59,7 @@ describe("Todo test suite", () => {
       .put(`/todos/${latestTodo.id}`)
       .send({
         _csrf: csrfToken,
+        completed: true,
       });
 
     expect(markCompleteResponse.status).toBe(200);
@@ -68,6 +69,7 @@ describe("Todo test suite", () => {
 
     const IncompleteResponse = await agent.put(`/todos/${latestTodo.id}`).send({
       _csrf: csrfToken,
+      completed: false,
     });
 
     expect(IncompleteResponse.status).toBe(200);
