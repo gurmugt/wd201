@@ -11,38 +11,16 @@ app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 const { Todo } = require("./models");
 const path = require("path");
 
-const { Op } = require("sequelize");
-
 //This line code is to style our web app using css
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
 app.get("/", async (request, response) => {
-  const overdue = await Todo.findAll({
-    where: { completed: false, dueDate: { [Op.lt]: new Date() } },
-  });
-
-  const dueToday = await Todo.findAll({
-    where: {
-      completed: false,
-      dueDate: {
-        [Op.gte]: new Date().setHours(0, 0, 0, 0),
-        [Op.lte]: new Date().setHours(23, 59, 59, 999),
-      },
-    },
-  });
-
-  const dueLater = await Todo.findAll({
-    where: {
-      completed: false,
-      dueDate: { [Op.gt]: new Date().setHours(23, 59, 59, 999) },
-    },
-  });
-
-  const completedItems = await Todo.findAll({
-    where: { completed: "true" },
-  });
+  const overdue = await Todo.getOverdue();
+  const dueToday = await Todo.getDueToday();
+  const dueLater = await Todo.getDueLater();
+  const completedItems = await Todo.getCompletedItems();
 
   if (request.accepts("html")) {
     response.render("index", {
@@ -57,15 +35,6 @@ app.get("/", async (request, response) => {
     //response.json("index", { overdue, dueToday, dueLater });
   }
 });
-
-/*app.get("/", async (request, response) => {
-  const allTodos = await Todo.getTodos();
-  if (request.accepts("html")) {
-    response.render("index", { allTodos,});
-  } else {
-    response.json({ allTodos});
-  }
-});*/
 
 // eslint-disable-next-line no-unused-vars
 app.get("/todos", async (request, response) => {
@@ -104,17 +73,6 @@ app.put("/todos/:id", async (request, response) => {
     return response.status(422).json(error);
   }
 });
-
-/* app.put("/todos/:id/markAsIncomplete", async (request, response) => {
-  const todo = await Todo.findByPk(request.params.id);
-  try {
-    const updatedTodoIncomplete= await todo. setCompletionStatus(!todo.completed);
-    return response.json(updatedTodoIncomplete);
-  } catch (error) {
-    console.log(error);
-    return response.status(422).json(error);
-  }
-}); */
 
 app.delete("/todos/:id", async (request, response) => {
   console.log("Delete a todo by an ID:", request.params.id);
