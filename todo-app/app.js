@@ -11,38 +11,16 @@ app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 const { Todo } = require("./models");
 const path = require("path");
 
-const { Op } = require("sequelize");
-
 //This line code is to style our web app using css
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
 app.get("/", async (request, response) => {
-  const overdue = await Todo.findAll({
-    where: { completed: false, dueDate: { [Op.lt]: new Date() } },
-  });
-
-  const dueToday = await Todo.findAll({
-    where: {
-      completed: false,
-      dueDate: {
-        [Op.gte]: new Date().setHours(0, 0, 0, 0),
-        [Op.lte]: new Date().setHours(23, 59, 59, 999),
-      },
-    },
-  });
-
-  const dueLater = await Todo.findAll({
-    where: {
-      completed: false,
-      dueDate: { [Op.gt]: new Date().setHours(23, 59, 59, 999) },
-    },
-  });
-
-  const completedItems = await Todo.findAll({
-    where: { completed: "true" },
-  });
+  const overdue = await Todo.getOverdue();
+  const dueToday = await Todo.getDueToday();
+  const dueLater = await Todo.getDueLater();
+  const completedItems = await Todo.getCompletedItems();
 
   if (request.accepts("html")) {
     response.render("index", {

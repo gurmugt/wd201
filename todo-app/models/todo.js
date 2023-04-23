@@ -2,6 +2,7 @@
 // eslint-disable-next-line no-unused-vars
 const { response } = require("express");
 const { Model } = require("sequelize");
+const { Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -24,6 +25,39 @@ module.exports = (sequelize, DataTypes) => {
 
     static todoList() {
       return this.findAll();
+    }
+
+    static getOverdue() {
+      return this.findAll({
+        where: { completed: false, dueDate: { [Op.lt]: new Date() } },
+      });
+    }
+
+    static getDueToday() {
+      return this.findAll({
+        where: {
+          completed: false,
+          dueDate: {
+            [Op.gte]: new Date().setHours(0, 0, 0, 0),
+            [Op.lte]: new Date().setHours(23, 59, 59, 999),
+          },
+        },
+      });
+    }
+
+    static getDueLater() {
+      return this.findAll({
+        where: {
+          completed: false,
+          dueDate: { [Op.gt]: new Date().setHours(23, 59, 59, 999) },
+        },
+      });
+    }
+
+    static getCompletedItems() {
+      return this.findAll({
+        where: { completed: "true" },
+      });
     }
 
     static async remove(id) {
