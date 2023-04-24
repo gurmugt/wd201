@@ -31,7 +31,7 @@ app.get("/", async (request, response) => {
       csrfToken: request.csrfToken(),
     });
   } else {
-    response.status(200).json({ overdue, dueToday, dueLater });
+    response.status(200).json({ overdue, dueToday, dueLater, completedItems });
     //response.json("index", { overdue, dueToday, dueLater });
   }
 });
