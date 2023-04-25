@@ -13,13 +13,18 @@ module.exports = (sequelize, DataTypes) => {
     // eslint-disable-next-line no-unused-vars
     static associate(models) {
       Todo.belongsTo(models.User, {
-        foreignKey: 'userId'
-      })
+        foreignKey: "userId",
+      });
       // define association here
     }
 
-    static addTodo({ title, dueDate, userId}) {
-      return this.create({ title: title, dueDate: dueDate, completed: false, userId});
+    static addTodo({ title, dueDate, userId }) {
+      return this.create({
+        title: title,
+        dueDate: dueDate,
+        completed: false,
+        userId,
+      });
     }
 
     setCompletionStatus(status) {
@@ -32,9 +37,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static getOverdue(userId) {
       return this.findAll({
-        where: { completed: false, dueDate: { [Op.lt]: new Date() },
-        userId
-      },
+        where: { completed: false, dueDate: { [Op.lt]: new Date() }, userId },
       });
     }
 
@@ -46,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
             [Op.gte]: new Date().setHours(0, 0, 0, 0),
             [Op.lte]: new Date().setHours(23, 59, 59, 999),
           },
-          userId
+          userId,
         },
       });
     }
@@ -56,29 +59,25 @@ module.exports = (sequelize, DataTypes) => {
         where: {
           completed: false,
           dueDate: { [Op.gt]: new Date().setHours(23, 59, 59, 999) },
-          userId
+          userId,
         },
       });
     }
 
     static getCompletedItems(userId) {
       return this.findAll({
-        where: { completed: "true",
-        userId
-       },
-       
+        where: { completed: "true", userId },
       });
     }
 
-    static async remove(id,userId) {
+    static async remove(id, userId) {
       return this.destroy({
         where: {
           id,
-          userId
+          userId,
         },
       });
     }
-    
   }
 
   Todo.init(
