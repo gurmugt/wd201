@@ -80,27 +80,27 @@
 
     <div>
      
-     <%- include('todos.ejs', {
+     <%- include('todo.ejs', {
       "todosSection": "Overdue" , 
       "id" : "count-overdue", 
       "myTodos" : overdue
   }) %>
 
 
-  <%- include('todos.ejs', {
+  <%- include('todo.ejs', {
       "todosSection": "Due Today", 
       "id" : "count-due-today" , 
       "myTodos" : dueToday
   }) %>
 
-    <%- include('todos.ejs', {
+    <%- include('todo.ejs', {
       "todosSection": "Due Later", 
       "id" : "count-due-later", 
       "myTodos" : dueLater
   }) %>
 
 
-  <%- include('todos.ejs', {
+  <%- include('todo.ejs', {
       "todosSection": "Completed Items", 
       "id" : "count-completed", 
       "myTodos" : completedItems
