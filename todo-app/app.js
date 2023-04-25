@@ -11,7 +11,7 @@ app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 const { Todo } = require("./models");
 const path = require("path");
 
-//This line code is to style our web app using css
+//This line code is to style our web app using css style
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
