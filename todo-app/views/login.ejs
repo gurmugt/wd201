@@ -33,6 +33,11 @@
                 </div>
              </form>
              <%- include("footer.ejs") %>
+             <% if(messages && messages.error && messages.error.length > 0)  { %>
+                <% for(var i=0; i<messages.error.length; i++) { %>
+                    <p class="border border-red-400 bg-red-200 text-red-600 w-full p-2 rounded"><%= messages.error[i] %></p>
+                <% } %>
+              <% } %>
              </div>
             </div>
         </body>

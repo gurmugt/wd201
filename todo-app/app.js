@@ -14,18 +14,28 @@ const path = require("path");
 const passport = require("passport");
 const connectEnsureLogin = require("connect-ensure-login");
 const session = require("express-session");
+const flash = require("connect-flash");
 const LocalStrategy = require("passport-local");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+
+// eslint-disable-next-line no-undef
+app.set("views", path.join(__dirname, "views"));
+app.use(flash());
 
 app.use(
   session({
     secret: "my-super-secret-key-21728172615261562",
     cookies: {
-      maxAge: 24 * 60 * 60 * 1000, //24hrs
+      maxAge: 24 * 60 * 60 * 1000,
     },
   })
 );
+
+app.use(function (request, response, next) {
+  response.locals.messages = request.flash();
+  next();
+});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -43,11 +53,15 @@ passport.use(
           if (result) {
             return done(null, user);
           } else {
-            return done("Invalid password");
+            return done(null, false, {
+              message: "Invalid password. Please try Again",
+            });
           }
         })
-        .catch((error) => {
-          return done(error);
+        .catch(() => {
+          return done(null, false, {
+            message: "Account doesn't exist",
+          });
         });
     }
   )
@@ -68,7 +82,6 @@ passport.deserializeUser((id, done) => {
     });
 });
 
-//This line code is to style our web app using css
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
@@ -106,7 +119,6 @@ app.get(
         completedItems,
       });
     }
-    //response.json("index", { overdue, dueToday, dueLater }); }
   }
 );
 
@@ -118,6 +130,21 @@ app.get("/signup", (request, response) => {
 });
 
 app.post("/users", async (request, response) => {
+  if (request.body.firstName.length == 0) {
+    request.flash("error", "FirstName can't be empty!");
+    return response.redirect("/signup");
+  }
+
+  if (request.body.email.length == 0) {
+    request.flash("error", "email can't be empty!");
+    return response.redirect("/signup");
+  }
+
+  if (request.body.password.length < 6) {
+    request.flash("error", "password character length should be minimun 6!");
+    return response.redirect("/signup");
+  }
+
   const hashedPwd = await bcrypt.hash(request.body.password, saltRounds);
   console.log(hashedPwd);
   try {
@@ -144,8 +171,11 @@ app.get("/login", (request, response) => {
 
 app.post(
   "/session",
-  passport.authenticate("local", { failureRedirect: "/login" }),
-  (request, response) => {
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    failureFlash: true,
+  }),
+  function (request, response) {
     console.log(request.user);
     response.redirect("/todos");
   }
@@ -177,6 +207,17 @@ app.post(
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
     console.log("Creating a list", request.body);
+
+    if (request.body.title.length == 0) {
+      request.flash("error", "Title can't be empty!");
+      return response.redirect("/todos");
+    }
+
+    if (request.body.dueDate.length == 0) {
+      request.flash("error", "dueDate can't be empty!");
+      return response.redirect("/todos");
+    }
+
     try {
       await Todo.addTodo({
         title: request.body.title,
