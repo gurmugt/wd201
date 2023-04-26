@@ -60,7 +60,7 @@ passport.use(
         })
         .catch(() => {
           return done(null, false, {
-            message: "Account doesn't exist",
+            message: "Account not registered?  To continue please, signup!",
           });
         });
     }
@@ -131,17 +131,20 @@ app.get("/signup", (request, response) => {
 
 app.post("/users", async (request, response) => {
   if (request.body.firstName.length == 0) {
-    request.flash("error", "FirstName can't be empty!");
+    request.flash(
+      "error",
+      "Please, enter you First Name to create an account!"
+    );
     return response.redirect("/signup");
   }
 
   if (request.body.email.length == 0) {
-    request.flash("error", "email can't be empty!");
+    request.flash("error", "Please, enter your Email to create an account!");
     return response.redirect("/signup");
   }
 
   if (request.body.password.length < 6) {
-    request.flash("error", "password character length should be minimun 6!");
+    request.flash("error", "Your password must be at least 6 characters long.");
     return response.redirect("/signup");
   }
 
@@ -207,14 +210,13 @@ app.post(
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
     console.log("Creating a list", request.body);
-
     if (request.body.title.length == 0) {
-      request.flash("error", "Title can't be empty!");
+      request.flash("error", "Please insert your todos!");
       return response.redirect("/todos");
     }
 
     if (request.body.dueDate.length == 0) {
-      request.flash("error", "dueDate can't be empty!");
+      request.flash("error", "Date field cannot be empty!");
       return response.redirect("/todos");
     }
 
