@@ -58,6 +58,7 @@
 <body>
    <div class="grid grid-cols-6">
     <div class="col-start-3 col-span-2">
+    <%- include('notification.ejs')%>
     <%- include('header.ejs')%>
     <a href="/signout" class="text-blue-500">Signout</a>
     <form action="/todos" method="post" id="todo-form">

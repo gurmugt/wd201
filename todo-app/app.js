@@ -25,7 +25,7 @@ app.use(flash());
 
 app.use(
   session({
-    secret: "my-super-secret-key-21728172615261562",
+    secret: "my-super-secret-key-123456789876123456788",
     cookies: {
       maxAge: 24 * 60 * 60 * 1000,
     },
